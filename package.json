@@ -1,0 +1,17 @@
+{
+  "name": "to-do-app",
+  "version": "1.0.0",
+  "description": "This Web APP comes for people who need a little help organizing their routine, with it you can set all sorts of tasks, from grocery lists and daily chores to work projects and personal goals.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}
