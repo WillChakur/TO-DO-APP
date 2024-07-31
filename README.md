@@ -15,7 +15,7 @@ This Web APP comes for people who need a little help organizing their routine, w
   To encrypt the password.
 
   **JWT**
-  For the authentication
+  For the authorization
 
 These technologies work together to create a powerful foundation for the To-Do App, ensuring a seamless user experience and efficient performance.
 

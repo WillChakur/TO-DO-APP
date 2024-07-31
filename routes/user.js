@@ -22,6 +22,7 @@ const createUsersTable = async () => {
         console.error("Error creating users table:", err);
     };
 };
+
 createUsersTable();
 
 
@@ -38,21 +39,34 @@ router.post('/register', async (req, res) => {
         res.json({ message: 'Data received', data: req.body });
     
     }catch(err) {
-        console.error('Error registering user:', err);
         res.status(500).json({ error: 'Failed to create user' });
     } 
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { username, password } = req.body
 
     let sql =   `SELECT * FROM users
                  WHERE username = ($1)`;
 
-    
+    let data = await db(sql, [username]);
 
+    if (data.rows[0]) {
+        bcrypt.compare(password, data.rows[0].password, function(err, result) {
+            if(err) {console.error(err);}
 
+            if(result) {
+                console.log('Password is correct');
+            }else {
+                console.log('Incorrect Password')
+            }
+        });
+    }
+    else {
+        console.log('The user does not exist');
+    }
 })
+
 
 const addNewUser = async (values) => {
     let sql =  `INSERT INTO users(firstname, lastname, email, username, password)
@@ -62,7 +76,8 @@ const addNewUser = async (values) => {
         await db(sql, values);
         console.log('New user registered');
     }catch(err) {
-        console.error('Error registering a new user', err);
+        console.error('Error registering a new user');
+        throw err;
     }
 }
 
@@ -72,7 +87,7 @@ const hashPassword = async (password) => {
         const hash = await bcrypt.hash(password, salt);
         return hash;
     } catch (err) {
-        console.error('Error while hashing password:', err);
+        console.error('Error while hashing password');
         throw err; 
     }
 };

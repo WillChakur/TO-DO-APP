@@ -19,6 +19,10 @@ const createTasksTable = async () => {
 }
 createTasksTable();
 
+router.post('/', (req, res) => {
+    
+})
+
 const addNewTask = async (values) => {
     let sql =   `INSERT INTO tasks(taskname, status, userID)
                  VALUES($1, $2, $3)`;
@@ -31,10 +35,5 @@ const addNewTask = async (values) => {
     };  
 };
 
-
-
-router.post('/', (req, res) => {
-    
-})
 
 module.exports = router;
