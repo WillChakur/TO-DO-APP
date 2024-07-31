@@ -14,7 +14,7 @@
         <input type="text" id="email" name="email" placeholder="Email">
         <input type="text" id="username" name="username" placeholder="Username">
         <input type="password" id="password" name="password" placeholder="Password">
-        <button type="submit">Send</button>
+        <button type="submit">Register</button>
     </form>
 
     <script>
@@ -27,7 +27,7 @@
 
             const data = Object.fromEntries(formData);
 
-            fetch('http://localhost:3000/user', {
+            fetch('http://localhost:3000/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,7 +35,7 @@
                 body: JSON.stringify(data)
             }).then(res => res.json())
               .then(data => console.log(data))
-              .catch(error => console.log(error));
+              .catch(err => console.log(err));
         });
 
     </script>

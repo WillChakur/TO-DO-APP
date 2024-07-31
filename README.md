@@ -11,6 +11,12 @@ This Web APP comes for people who need a little help organizing their routine, w
 - **Node.js**: 
   - A JavaScript runtime built on Chrome's V8 engine, designed for building scalable network applications. Node.js allows for asynchronous, non-blocking I/O operations, making it perfect for handling multiple requests simultaneously. Its extensive ecosystem, accessible through npm (Node Package Manager), provides a wealth of libraries and frameworks to accelerate development.
 
+  **Bcrypt**
+  To encrypt the password.
+
+  **JWT**
+  For the authentication
+
 These technologies work together to create a powerful foundation for the To-Do App, ensuring a seamless user experience and efficient performance.
 
 ## Installation

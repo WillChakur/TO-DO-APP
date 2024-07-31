@@ -1,6 +1,8 @@
 const db = require('../db/index.js');
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const createUsersTable = async () => {
     let sql = `CREATE TABLE IF NOT EXISTS users (
@@ -22,6 +24,36 @@ const createUsersTable = async () => {
 };
 createUsersTable();
 
+
+router.post('/register', async (req, res) => {
+    const { firstname, lastname, email, username, password } = req.body;
+
+    try {
+        const hashedPassword = await hashPassword(password);
+
+        let values = [firstname, lastname, email, username, hashedPassword];
+        
+        await addNewUser(values);
+
+        res.json({ message: 'Data received', data: req.body });
+    
+    }catch(err) {
+        console.error('Error registering user:', err);
+        res.status(500).json({ error: 'Failed to create user' });
+    } 
+});
+
+router.post('/login', (req, res) => {
+    const { username, password } = req.body
+
+    let sql =   `SELECT * FROM users
+                 WHERE username = ($1)`;
+
+    
+
+
+})
+
 const addNewUser = async (values) => {
     let sql =  `INSERT INTO users(firstname, lastname, email, username, password)
                 VALUES ($1, $2, $3, $4, $5)`;
@@ -34,14 +66,15 @@ const addNewUser = async (values) => {
     }
 }
 
-router.post('/', (req, res) => {
-    const { firstname, lastname, email, username, password } = req.body;
-
-    let values = [ firstname, lastname, email, username, password ];
-
-    addNewUser(values);
-
-    res.json({ message: 'Data received', data: req.body });
-});
+const hashPassword = async (password) => {
+    try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hash = await bcrypt.hash(password, salt);
+        return hash;
+    } catch (err) {
+        console.error('Error while hashing password:', err);
+        throw err; 
+    }
+};
 
 module.exports = router;
