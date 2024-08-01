@@ -26,7 +26,6 @@ router.post('/', (req, res) => {
 const addNewTask = async (values) => {
     let sql =   `INSERT INTO tasks(taskname, status, userID)
                  VALUES($1, $2, $3)`;
-
     try {
         await db(sql, values)
         console.log('New task added');

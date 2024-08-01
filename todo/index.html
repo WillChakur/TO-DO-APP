@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div class="to-do__container">
+        <div class="to-do__content">
+            <div class="to-do__add-button btn">
+                <button id="add-button" class="add-button">Add a new task</button>
+            </div>
+
+            <div id="to-do__form" class="to-do__form">
+                <form class="new-task-form" id="new-task-form">
+                        <input type="text" name="newtask" id="newtask" placeholder="New task...">
+                        <button type="submit" id="form-submit">Add</button>
+                        <button type="button" id="form-close">Close</button>
+                </form>
+            </div>
+
+            <div class="to-do__main">
+                <form id="to-do__list" class="to-do__list">
+                    <!--Here we will see new task add with JS-->
+                </form>
+            
+            </div>
+
+            <div class="to-do__remove-button btn">
+                <button class="remove-button">Delete task</button>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="./script.js"></script>
+
+</body>
+</html>
