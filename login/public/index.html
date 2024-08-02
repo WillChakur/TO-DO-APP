@@ -11,7 +11,8 @@
     <form class="form">
         <input type="text" id="username" name="username" placeholder="Username">
         <input type="password" id="password" name="password" placeholder="Password">
-        <button type="submit">Submit</button>
+        <button type="submit">Login</button> 
+        <button type="button" id="registerBtn" >Register</button>
     </form>
 
     <script>
@@ -24,16 +25,27 @@
 
             const data = Object.fromEntries(formData);
 
-            fetch('http://localhost:3000/user/login', {
+            fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             }).then(res => res.json())
-              .then(data => console.log(data))
+              .then(data =>{
+                if(data.redirect) {
+                    window.location.href = data.redirect;
+                }
+              })
               .catch(err => console.log(err));
         });
+
+        const registerBtn = document.getElementById('registerBtn');
+
+        registerBtn.addEventListener('click', () => {
+            window.location.href = 'http://localhost:3000/register';
+        });
+
     </script>
     
 </body>

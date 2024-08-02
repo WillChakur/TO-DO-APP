@@ -3,30 +3,15 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const path = require('path');
 
-const createUsersTable = async () => {
-    let sql = `CREATE TABLE IF NOT EXISTS users (
-    userID INT GENERATED ALWAYS AS IDENTITY,
-    firstname VARCHAR(50) NOT NULL,
-    lastname VARCHAR(50) NOT NULL,
-    email VARCHAR(62) UNIQUE NOT NULL,
-    username VARCHAR(30) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    PRIMARY KEY(userID)
-    )`;
+router.use(express.static(path.join(__dirname, '..', 'register', 'public')));
 
-    try {
-        await db(sql); 
-        console.log("Users table sucessfully created.");
-    }catch(err) {
-        console.error("Error creating users table:", err);
-    };
-};
+router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'register','public', 'index.html'));
+})
 
-createUsersTable();
-
-
-router.post('/register', async (req, res) => {
+router.post('/', async (req, res) => {
     const { firstname, lastname, email, username, password } = req.body;
 
     try {
@@ -42,31 +27,6 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Failed to create user' });
     } 
 });
-
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body
-
-    let sql =   `SELECT * FROM users
-                 WHERE username = ($1)`;
-
-    let data = await db(sql, [username]);
-
-    if (data.rows[0]) {
-        bcrypt.compare(password, data.rows[0].password, function(err, result) {
-            if(err) {console.error(err);}
-
-            if(result) {
-                console.log('Password is correct');
-            }else {
-                console.log('Incorrect Password')
-            }
-        });
-    }
-    else {
-        console.log('The user does not exist');
-    }
-})
-
 
 const addNewUser = async (values) => {
     let sql =  `INSERT INTO users(firstname, lastname, email, username, password)

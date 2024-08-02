@@ -1,12 +1,12 @@
 const db = require('../db/index.js');
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 
 const createTasksTable = async () => {
     let sql = `CREATE TABLE IF NOT EXISTS tasks (
     taskID SERIAL PRIMARY KEY,
     taskname VARCHAR(50) NOT NULL,
-    status VARCHAR(50) NOT NULL,
     userID INTEGER REFERENCES users(userID)
     )`;
 
@@ -19,12 +19,17 @@ const createTasksTable = async () => {
 }
 createTasksTable();
 
+router.use(express.static(path.join(__dirname, '..', 'todo', 'public')));
+
 router.post('/', (req, res) => {
-    
+
+
+
+    addNewTask(values);
 })
 
 const addNewTask = async (values) => {
-    let sql =   `INSERT INTO tasks(taskname, status, userID)
+    let sql =   `INSERT INTO tasks(taskname, userID)
                  VALUES($1, $2, $3)`;
     try {
         await db(sql, values)

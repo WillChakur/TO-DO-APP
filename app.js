@@ -2,22 +2,29 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-const routerUser  = require('./routes/user');
+const path = require('path');
+const session = require('express-session');
+const routerLogin  = require('./routes/login');
 const routerTasks = require('./routes/tasks');
-const routerIndex = require('./routes/index');
-
+const routerReg = require('./routes/register');
 
 const PORT = 3000;
 
 app.use(bodyParser.urlencoded({extended : false})); /* HTML form */
 app.use(bodyParser.json()) /* API */
-app.use(cors());
-
-app.use(express.static('register/public'))
-app.use('/', routerIndex);
-app.use('/user', routerUser);
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+app.use(session({
+    secret: 'to-do-app',
+    resave: false,
+    saveUninitialized: false,
+  }))
+app.use(express.static(path.join(__dirname, 'login/public')));
+app.use('/login', routerLogin);
 app.use('/tasks', routerTasks);
+app.use('/register', routerReg);
 
 app.listen(PORT, () => {
     console.log(`Server listening on Port: ${PORT}`);
