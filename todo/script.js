@@ -18,7 +18,7 @@ const displayForm = () => {
     }
 };
 
-const addNewTask = () => {
+const addTask = () => {
     let form = document.getElementById('new-task-form');
     let list = document.getElementById('to-do__list');
 
@@ -32,6 +32,7 @@ const addNewTask = () => {
             if (task) {
                 let listItem = document.createElement('div');
                 listItem.classList.add('checkbox-wrapper-11');
+                listItem.classList.add('task-item');
 
                 let newTask = document.createElement('input');
                 newTask.type = 'checkbox';
@@ -43,14 +44,6 @@ const addNewTask = () => {
                 label.htmlFor = newTask.id;
                 label.textContent = task;
 
-                newTask.addEventListener('change', () => {
-                    if (newTask.checked) {
-                        label.classList.add('completed');
-                    } else {
-                        label.classList.remove('completed');
-                    }
-                });
-
                 listItem.appendChild(newTask);
                 listItem.appendChild(label);
 
@@ -58,6 +51,12 @@ const addNewTask = () => {
 
                 form.reset();
                 form.classList.remove('visible');
+
+                listItem.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
+                        listItem.classList.toggle('task-done');
+                    }
+                });
             }
         });
     } else {
@@ -65,8 +64,45 @@ const addNewTask = () => {
     }
 };
 
+const deleteTask = () => {
+    let removeButton = document.getElementById('remove-button');
+
+    removeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        removeButton.classList.add('not-visible');
+
+        let buttons = document.querySelectorAll('.btn-rm');
+
+        if(buttons.length > 0) {
+            buttons.forEach(button => {
+                button.classList.add('visible');
+                button.addEventListener('click', () => {
+                    removeButton.classList.remove('not-visible');
+                    buttons.forEach(btn => {
+                        btn.classList.remove('visible');
+                    })
+                })
+            })
+        }
+
+        let delButton = document.getElementById('remove-button-del')
+
+        delButton.addEventListener('click', () => {
+            let doneTasks = document.querySelectorAll('.task-done');
+            
+            if(doneTasks.length > 0) {
+                doneTasks.forEach(task => {
+                    task.remove();
+                })
+            }
+        })
+    })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     displayForm();
-    addNewTask();
+    addTask();
+    deleteTask();
 });
 

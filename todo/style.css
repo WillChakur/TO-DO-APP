@@ -4,12 +4,33 @@
     box-sizing: border-box;
 }
 
+/*          */
+
+ 
+    
+/*       */
 .to-do__form {
     display: none;
 }
 
 .to-do__form.visible {
     display: inline-block;
+}
+
+.remove-button.not-visible {
+    display: none;
+}
+
+.remove-button-del.visible {
+    display: inline-block;
+}
+
+.remove-button-cancel.visible {
+    display: inline-block;
+}
+
+.remove-button-del, .remove-button-cancel {
+    display: none;
 }
 
 .checkbox-wrapper-11 {
