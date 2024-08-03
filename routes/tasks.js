@@ -22,10 +22,25 @@ createTasksTable();
 router.use(express.static(path.join(__dirname, '..', 'todo', 'public')));
 
 router.post('/', (req, res) => {
-
-
-
     addNewTask(values);
+})
+
+router.get('/getTasks', async (req, res) => {
+
+    let sql =   `SELECT * FROM tasks
+                 WHERE userid = ($1)`;
+
+    if (req.session.userID) {
+    try {
+        const tasks = await db(sql, [ req.session.userID ]);
+        res.status(200).send({ data: tasks.rows });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+    } else {
+        res.status(200).send({ data: [], message: 'Empty list' });
+    }
 })
 
 const addNewTask = async (values) => {

@@ -18,6 +18,33 @@ const displayForm = () => {
     }
 };
 
+const getTask = async () => {
+    
+    try {
+        const response = await fetch('http://localhost:3000/tasks/getTasks', {
+            method: 'GET',    
+        })
+
+        if(!response.ok) {
+            throw new Error('HTTP error! status: ${response.status}');
+        };
+
+        const result = response.json();
+
+        if(result.data) {
+            console.log(result.data);
+        } else {
+            console.log('Empty list');
+            return [];
+        }
+    } catch (err) {
+        console.error('Error fetching tasks:', err);
+        return [];
+    }
+};
+
+
+
 const addTask = () => {
     let form = document.getElementById('new-task-form');
     let list = document.getElementById('to-do__list');
@@ -104,5 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     displayForm();
     addTask();
     deleteTask();
+    getTask().then(tasks => console.log('Tasks:', tasks));
 });
 

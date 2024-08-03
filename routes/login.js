@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const path = require('path');
+const session = require('express-session');
 
 const createUsersTable = async () => {
     let sql = `CREATE TABLE IF NOT EXISTS users (
@@ -25,7 +26,6 @@ const createUsersTable = async () => {
 };
 
 createUsersTable();
-
 
 router.use(express.static(path.join(__dirname, '..', 'login', 'public')));
 
@@ -59,5 +59,36 @@ router.post('/', async (req, res) => {
         console.log('The user does not exist');
     }
 })
+
+router.get('/getTasks', (req, res) => {
+    let task = getTasks([1]);
+
+    res.json( { data: task});
+})
+
+router.get('/getUser', async (req, res) => {
+    let user = await getUser(['WillChakur']);
+
+    res.send(user.rows);
+})
+
+const getTasks = async (userid) => {
+
+    let sql =   `SELECT * FROM tasks
+                 WHERE userid = ($1)`;
+
+    let tasks = await db(sql, userid);
+
+    return tasks;
+}
+
+const getUser = async (username) => {
+    let sql =   `SELECT * FROM users
+                 WHERE username = ($1)`;
+    
+    let user = await db(sql, username);
+
+    return user;
+}
 
 module.exports = router;
