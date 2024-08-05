@@ -18,34 +18,70 @@ const displayForm = () => {
     }
 };
 
-const getTask = async () => {
-    
+const getTasks = async () => {
     try {
         const response = await fetch('http://localhost:3000/tasks/getTasks', {
-            method: 'GET',    
-        })
+            method: 'GET'
+        });
 
         if(!response.ok) {
-            throw new Error('HTTP error! status: ${response.status}');
-        };
-
-        const result = response.json();
-
-        if(result.data) {
-            console.log(result.data);
-        } else {
-            console.log('Empty list');
-            return [];
+            throw new Error('Network response was not ok', response.statusText);
         }
+
+        const data = await response.json();
+        
+        console.log(data.data);
+
+        return data.data;
+
     } catch (err) {
-        console.error('Error fetching tasks:', err);
-        return [];
+        console.error('Fetch error ', err);
     }
-};
+}
+
+const displayTasks = async () => {
+    try {
+        const tasks = await getTasks();
+
+        if(tasks) {
+
+            let list = document.getElementById('to-do__list');
+
+            tasks.forEach(task => {
+                let listItem = document.createElement('div');
+                    listItem.classList.add('checkbox-wrapper-11');
+                    listItem.classList.add('task-item');
+
+                    let newTask = document.createElement('input');
+                    newTask.type = 'checkbox';
+                    newTask.id = task.taskid;
+                    newTask.name = 'task';
+                    newTask.value = task.taskname;
+
+                    let label = document.createElement('label');
+                    label.htmlFor = newTask.id;
+                    label.textContent = task.taskname;
+
+                    listItem.appendChild(newTask);
+                    listItem.appendChild(label);
+
+                    list.appendChild(listItem);
+
+                    listItem.addEventListener('click', (e) => {
+                        if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
+                            listItem.classList.toggle('task-done');
+                        }
+                    });
+            })
+        }
+
+    } catch(err) {
+        console.error('Erro while displaying the tasks', err);
+    }
+}
 
 
-
-const addTask = () => {
+const addTask = async () => {
     let form = document.getElementById('new-task-form');
     let list = document.getElementById('to-do__list');
 
@@ -57,6 +93,17 @@ const addTask = () => {
             let task = formData.get('newtask');
 
             if (task) {
+
+                
+                fetch('http://localhost:3000/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ taskname: task })
+                }).then(res => res.json())
+
+
                 let listItem = document.createElement('div');
                 listItem.classList.add('checkbox-wrapper-11');
                 listItem.classList.add('task-item');
@@ -131,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayForm();
     addTask();
     deleteTask();
-    getTask().then(tasks => console.log('Tasks:', tasks));
+    getTasks();
+    displayTasks();
 });
 

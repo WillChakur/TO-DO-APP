@@ -60,17 +60,17 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/getTasks', (req, res) => {
-    let task = getTasks([1]);
+// router.get('/getTasks', (req, res) => {
+//     let task = getTasks([1]);
 
-    res.json( { data: task});
-})
+//     res.json( { data: task});
+// })
 
-router.get('/getUser', async (req, res) => {
-    let user = await getUser(['WillChakur']);
+// router.get('/getUser', async (req, res) => {
+//     let user = await getUser(['WillChakur']);
 
-    res.send(user.rows);
-})
+//     res.send(user.rows);
+// })
 
 const getTasks = async (userid) => {
 
