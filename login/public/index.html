@@ -7,13 +7,20 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div class="form-container">
+        <div class="form-content">
+            <div class="title">
+                <h1>Login 👋</h1>
+            </div>
 
-    <form class="form">
-        <input type="text" id="username" name="username" placeholder="Username">
-        <input type="password" id="password" name="password" placeholder="Password">
-        <button type="submit">Login</button> 
-        <button type="button" id="registerBtn" >Register</button>
-    </form>
+            <form class="form">
+                <input class="form-item" type="text" id="username" name="username" placeholder="Username">
+                <input class="form-item" type="password" id="password" name="password" placeholder="Password">
+                <button class="form-item btn" type="submit">Login</button> 
+                <button class="form-item btn" type="button" id="registerBtn" >Register</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         const form = document.querySelector('.form');

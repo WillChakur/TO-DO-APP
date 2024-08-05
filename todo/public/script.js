@@ -197,7 +197,7 @@ function getRandomPostgresInteger() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    displayForm();
+    //displayForm();
     addTask();
     deleteTask();
     getTasks();

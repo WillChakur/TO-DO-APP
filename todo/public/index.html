@@ -10,15 +10,19 @@
 
     <div class="to-do__container">
         <div class="to-do__content">
-            <div class="to-do__add-button btn">
-                <button id="add-button" class="add-button btn">Add a new task</button>
+            <div class="title">
+                <h1>Have a Nice Day 😉</h1>
             </div>
 
-            <div id="to-do__form" class="to-do__form">
+            <!-- <div class="to-do__add-button btn">
+                <button id="add-button" class="add-button btn"><img src="./assets/plus.png" alt="add button"></button>
+            </div> -->
+
+            <div id="to-do__form" class="to-do__form visible">
                 <form class="new-task-form" id="new-task-form">
                         <input type="text" name="newtask" id="newtask" placeholder="New task...">
-                        <button type="submit" id="form-submit">Add</button>
-                        <button type="button" id="form-close">Close</button>
+                        <button class="btn" type="submit" id="form-submit"><img class="tiny-btn" src="./assets/littleplus.png" alt="add button"></button>
+                        <!-- <button class="btn" type="button" id="form-close"><img class="tiny-btn" src="./assets/close.png" alt="close button"></button> -->
                 </form>
             </div>
 
@@ -28,8 +32,13 @@
                 </form>
             </div>
 
+            <div class="instruction">
+                <h3>Add a new task...</h3>
+            </div>
+
+
             <div class="to-do__remove-button btn">
-                <button type="button" id="remove-button" class="remove-button btn">Delete task</button>
+                <button type="button" id="remove-button" class="remove-button btn"><img src="./assets/trash-can.png" alt="delete button"></button>
                 <button type="button" id="remove-button-del" class="remove-button-del btn-rm">Delete</button>
                 <button type="button" id="remove-button-cancel" class="remove-button-cancel btn-rm">Cancel</button>
             </div>
