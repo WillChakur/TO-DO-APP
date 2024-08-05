@@ -23,18 +23,35 @@ router.use(express.static(path.join(__dirname, '..', 'todo', 'public')));
 
 router.post('/', (req, res) => {
 
-    const { taskname } = req.body;
+    const { taskname , taskid } = req.body;
 
-    let values = [ taskname, req.session.userID ];
+    let values = [ taskid, taskname, req.session.userID ];
 
     addNewTask(values);
+})
+
+router.delete ('/delTasks/:id', async (req, res) => {
+    let sql =   `DELETE FROM tasks
+                 WHERE taskid = $1`
+
+    let taskid = req.params.id;
+
+    if(taskid) {
+        try {
+            await db (sql, [ taskid ])
+            res.status(200).send({ message: 'tasks deleted with success' });
+        }catch(err) {
+            console.error(err)
+            res.status(500).send({ message: 'Error deleting the tasks' });
+        }
+    }
 })
 
 router.get('/getTasks', async (req, res) => {
 
     let sql =   `SELECT * FROM tasks
                  WHERE userid = ($1)`;
-    
+
     if (req.session.userID) {
     try {
         const tasks = await db(sql, [ req.session.userID ]);
@@ -49,8 +66,8 @@ router.get('/getTasks', async (req, res) => {
 })
 
 const addNewTask = async (values) => {
-    let sql =   `INSERT INTO tasks(taskname, userID)
-                 VALUES($1, $2)`;
+    let sql =   `INSERT INTO tasks(taskid, taskname, userID)
+                 VALUES($1, $2, $3)`;
     try {
         await db(sql, values)
         console.log('New task added');

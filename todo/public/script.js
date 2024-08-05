@@ -80,7 +80,6 @@ const displayTasks = async () => {
     }
 }
 
-
 const addTask = async () => {
     let form = document.getElementById('new-task-form');
     let list = document.getElementById('to-do__list');
@@ -94,13 +93,16 @@ const addTask = async () => {
 
             if (task) {
 
+                let randomId =  getRandomPostgresInteger();
                 
                 fetch('http://localhost:3000/tasks', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ taskname: task })
+                    body: JSON.stringify({ taskname: task,
+                                           taskid: randomId//Valor aleatorio
+                     })
                 }).then(res => res.json())
 
 
@@ -110,7 +112,7 @@ const addTask = async () => {
 
                 let newTask = document.createElement('input');
                 newTask.type = 'checkbox';
-                newTask.id = `task-${Date.now()}`;
+                newTask.id = randomId;
                 newTask.name = 'task';
                 newTask.value = task;
 
@@ -162,16 +164,36 @@ const deleteTask = () => {
 
         let delButton = document.getElementById('remove-button-del')
 
-        delButton.addEventListener('click', () => {
+        delButton.addEventListener('click', async () => {
             let doneTasks = document.querySelectorAll('.task-done');
             
             if(doneTasks.length > 0) {
-                doneTasks.forEach(task => {
+
+                for (const task of doneTasks) {
+                    try {
+                        const response = await fetch(`http://localhost:3000/tasks/delTasks/${task.firstChild.id}`, {
+                            method: 'DELETE'
+                        });
+                        
+                        if(!response.ok) {
+                            throw new Error('Error deleting the task on database ', response.statusText);
+                        }
+                    }catch (err) {
+                        console.error(err);
+                    }
                     task.remove();
-                })
+
+                }
             }
         })
     })
+}
+
+function getRandomPostgresInteger() {
+    const min = 0;
+    const max = 2147483647;
+    
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
