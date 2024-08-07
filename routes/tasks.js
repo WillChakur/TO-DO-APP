@@ -25,7 +25,11 @@ router.post('/',async (req, res) => {
 
     const { taskname , taskid } = req.body;
 
-    let values = [ taskid, taskname, req.session.userID ];
+    if (!taskname || !taskid || !req.session.userID) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const values = [ taskid, taskname, req.session.userID ];
 
     try {
         await addNewTask(values);
@@ -49,6 +53,8 @@ router.delete ('/delTasks/:id', async (req, res) => {
             console.error(err)
             res.status(500).send({ message: 'Error deleting the tasks' });
         }
+    } else {
+        res.status(400).json( { message: 'Error getting the taskid' });
     }
 })
 
@@ -58,13 +64,13 @@ router.get('/getTasks', async (req, res) => {
                  WHERE userid = ($1)`;
 
     if (req.session.userID) {
-    try {
-        const tasks = await db(sql, [ req.session.userID ]);
-        res.status(200).send({ data: tasks.rows });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'Internal Server Error' });
-    }
+        try {
+            const tasks = await db(sql, [ req.session.userID ]);
+            res.status(200).send({ data: tasks.rows });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: 'Internal Server Error' });
+        }
     } else {
         res.status(200).send({ data: [], message: 'Empty list' });
     }
@@ -78,6 +84,7 @@ const addNewTask = async (values) => {
         console.log('New task added');
     }catch(err) {
         console.error('An error occurred while adding a new task', err);
+        throw err;
     };  
 };
 

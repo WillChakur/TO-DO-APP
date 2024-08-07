@@ -37,25 +37,33 @@ router.post('/', async (req, res) => {
     let sql =   `SELECT * FROM users
                  WHERE username = ($1)`;
 
-    let data = await db(sql, [username]);
+    try {
+        const data = await db(sql, [username]);
 
-    if (data.rows[0]) {
-        bcrypt.compare(password, data.rows[0].password, function(err, result) {
-            if(err) {console.error(err);}
+        if (data.rows.length > 0) {
+            bcrypt.compare(password, data.rows[0].password, function(err, result) {
+                if(err) {
+                    console.error(err);
+                    res.status(500).json({error: 'Internal server error'});
+                }
 
-            if(result) {
-                console.log('Password is correct');
-                const userID = data.rows[0].userid;
-                req.session.userID = userID;   
-                res.send({ redirect: 'http://localhost:3000/tasks'});
-            }else {
-                console.log('Incorrect Password')
-            }
-        });
-    }
-    else {
-        console.log('The user does not exist');
-    }
+                if(result) {
+                    console.log('Password is correct');
+                    const userID = data.rows[0].userid;
+                    req.session.userID = userID;   
+                    return res.send({ redirect: 'http://localhost:3000/tasks'});
+                }else {
+                    return res.status(401).json({ error: 'Incorrect Password' });
+                }
+            });
+        }
+        else {
+            return res.status(404).json({ error: 'User does not exist' });
+        }
+    }catch(error) {
+        console.error('Database query error: ', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }             
 })
 
 

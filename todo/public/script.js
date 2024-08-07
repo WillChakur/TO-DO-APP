@@ -5,17 +5,17 @@ const getTasks = async () => {
         });
 
         if(!response.ok) {
-            throw new Error('Network response was not ok', response.statusText);
+            throw new Error('Network response was not ok: ', response.statusText);
         }
 
         const data = await response.json();
-        
-        console.log(data.data);
 
         return data.data;
 
     } catch (err) {
-        console.error('Fetch error ', err);
+        console.error('Fetch error:', err);
+        alert(`Failed to fetch tasks: ${err.message}`);
+        return [];
     }
 }
 
@@ -56,7 +56,8 @@ const displayTasks = async () => {
         }
 
     } catch(err) {
-        console.error('Erro while displaying the tasks', err);
+        console.error('Error while displaying tasks:', err);
+        alert('Failed to display tasks. Please try again later.');
     }
 }
 
@@ -65,7 +66,7 @@ const addTask = async () => {
     let list = document.getElementById('to-do__list');
 
     if (form && list) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             let formData = new FormData(form);
@@ -73,46 +74,49 @@ const addTask = async () => {
 
             if (task) {
 
-                let randomId =  getRandomPostgresInteger();
-                
-                fetch('http://localhost:3000/tasks', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ taskname: task,
-                                           taskid: randomId//Valor aleatorio
-                     })
-                }).then(res => res.json())
+                const randomId =  getRandomPostgresInteger();
+                try {
+                    await fetch('http://localhost:3000/tasks', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ taskname: task,
+                                            taskid: randomId//Valor aleatorio
+                        })
+                    }).then(res => res.json())
 
 
-                let listItem = document.createElement('div');
-                listItem.classList.add('checkbox-wrapper-11');
-                listItem.classList.add('task-item');
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('checkbox-wrapper-11');
+                    listItem.classList.add('task-item');
 
-                let newTask = document.createElement('input');
-                newTask.type = 'checkbox';
-                newTask.id = randomId;
-                newTask.name = 'task';
-                newTask.value = task;
+                    const newTask = document.createElement('input');
+                    newTask.type = 'checkbox';
+                    newTask.id = randomId;
+                    newTask.name = 'task';
+                    newTask.value = task;
 
-                let label = document.createElement('label');
-                label.htmlFor = newTask.id;
-                label.textContent = task;
+                    const label = document.createElement('label');
+                    label.htmlFor = newTask.id;
+                    label.textContent = task;
 
-                listItem.appendChild(newTask);
-                listItem.appendChild(label);
+                    listItem.appendChild(newTask);
+                    listItem.appendChild(label);
 
-                list.appendChild(listItem);
+                    list.appendChild(listItem);
 
-                form.reset();
-                form.classList.remove('visible');
+                    form.reset();
+                    form.classList.remove('visible');
 
-                listItem.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-                        listItem.classList.toggle('task-done');
-                    }
-                });
+                    listItem.addEventListener('click', (e) => {
+                        if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
+                            listItem.classList.toggle('task-done');
+                        }
+                    });
+                }catch (error) {
+                    console.error('Error adding task: ', error);
+                }
             }
         });
     } else {
@@ -123,50 +127,58 @@ const addTask = async () => {
 const deleteTask = () => {
     let removeButton = document.getElementById('remove-button');
 
-    removeButton.addEventListener('click', (e) => {
-        e.preventDefault();
+    if(removeButton) {
+        removeButton.addEventListener('click', (e) => {
+            e.preventDefault();
 
-        removeButton.classList.add('not-visible');
+            removeButton.classList.add('not-visible');
 
-        let buttons = document.querySelectorAll('.btn-rm');
+            let buttons = document.querySelectorAll('.btn-rm');
 
-        if(buttons.length > 0) {
-            buttons.forEach(button => {
-                button.classList.add('visible');
-                button.addEventListener('click', () => {
-                    removeButton.classList.remove('not-visible');
-                    buttons.forEach(btn => {
-                        btn.classList.remove('visible');
+            if(buttons.length > 0) {
+                buttons.forEach(button => {
+                    button.classList.add('visible');
+                    button.addEventListener('click', () => {
+                        removeButton.classList.remove('not-visible');
+                        buttons.forEach(btn => {
+                            btn.classList.remove('visible');
+                        })
                     })
                 })
-            })
-        }
+            }
 
-        let delButton = document.getElementById('remove-button-del')
+            let delButton = document.getElementById('remove-button-del')
 
-        delButton.addEventListener('click', async () => {
-            let doneTasks = document.querySelectorAll('.task-done');
-            
-            if(doneTasks.length > 0) {
+            if(delButton) {
+                delButton.addEventListener('click', async () => {
+                    let doneTasks = document.querySelectorAll('.task-done');
+                    
+                    if(doneTasks.length > 0) {
 
-                for (const task of doneTasks) {
-                    try {
-                        const response = await fetch(`http://localhost:3000/tasks/delTasks/${task.firstChild.id}`, {
-                            method: 'DELETE'
-                        });
-                        
-                        if(!response.ok) {
-                            throw new Error('Error deleting the task on database ', response.statusText);
+                        for (const task of doneTasks) {
+                            try {
+                                const response = await fetch(`http://localhost:3000/tasks/delTasks/${task.firstChild.id}`, {
+                                    method: 'DELETE'
+                                });
+                                
+                                if(!response.ok) {
+                                    throw new Error('Error deleting the task on database ', response.statusText);
+                                }
+                            }catch (err) {
+                                console.error(err);
+                            }
+                            task.remove();
+
                         }
-                    }catch (err) {
-                        console.error(err);
                     }
-                    task.remove();
-
-                }
+                })
+            }else {
+                console.error('delButton not found');
             }
         })
-    })
+    } else {
+        console.error('removeButton not found');
+    }
 }
 
 function getRandomPostgresInteger() {

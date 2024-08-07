@@ -14,18 +14,21 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
     const { firstname, lastname, email, username, password } = req.body;
 
+    if (!firstname || !lastname || !email || !username || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
     try {
         const hashedPassword = await hashPassword(password);
-
-        let values = [firstname, lastname, email, username, hashedPassword];
+        const values = [firstname, lastname, email, username, hashedPassword];
         
         await addNewUser(values);
 
-        res.json({ message: 'Data received', data: req.body });
+        res.status(201).json({ message: 'User registered successfully' });
     
     }catch(err) {
+        console.error('Error registering the user: ', err)
         res.status(500).json({ error: 'Failed to create user' });
-        throw err
     } 
 });
 
@@ -37,7 +40,7 @@ const addNewUser = async (values) => {
         await db(sql, values);
         console.log('New user registered');
     }catch(err) {
-        console.error('Error registering a new user');
+        console.error('Error registering a new user:', err);
         throw err;
     }
 }
@@ -48,7 +51,7 @@ const hashPassword = async (password) => {
         const hash = await bcrypt.hash(password, salt);
         return hash;
     } catch (err) {
-        console.error('Error while hashing password');
+        console.error('Error while hashing password:', err);
         throw err; 
     }
 };
