@@ -25,6 +25,7 @@ router.post('/', async (req, res) => {
     
     }catch(err) {
         res.status(500).json({ error: 'Failed to create user' });
+        throw err
     } 
 });
 

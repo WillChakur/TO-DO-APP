@@ -21,13 +21,18 @@ createTasksTable();
 
 router.use(express.static(path.join(__dirname, '..', 'todo', 'public')));
 
-router.post('/', (req, res) => {
+router.post('/',async (req, res) => {
 
     const { taskname , taskid } = req.body;
 
     let values = [ taskid, taskname, req.session.userID ];
 
-    addNewTask(values);
+    try {
+        await addNewTask(values);
+        res.status(201).json({ message: 'Task added successfully!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to add task.', error: error.message });
+    }
 })
 
 router.delete ('/delTasks/:id', async (req, res) => {

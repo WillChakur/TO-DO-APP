@@ -1,23 +1,3 @@
-const displayForm = () => {
-    let addBtn = document.getElementById('add-button');
-    let form = document.getElementById('to-do__form');
-    let formcloseBtn = document.getElementById('form-close');
-
-
-    if(addBtn && form && formcloseBtn) {
-        addBtn.addEventListener('click', () => {
-            form.classList.add('visible');
-        });
-
-        formcloseBtn.addEventListener('click', () => {
-            form.classList.remove('visible')
-        });
-
-    } else {
-        console.log('Element not found');
-    }
-};
-
 const getTasks = async () => {
     try {
         const response = await fetch('http://localhost:3000/tasks/getTasks', {
@@ -197,7 +177,6 @@ function getRandomPostgresInteger() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    //displayForm();
     addTask();
     deleteTask();
     getTasks();
