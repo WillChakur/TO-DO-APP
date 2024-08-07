@@ -7,8 +7,9 @@ const session = require('express-session');
 const routerLogin  = require('./routes/login');
 const routerTasks = require('./routes/tasks');
 const routerReg = require('./routes/register');
+require('dotenv').config();
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.use(bodyParser.urlencoded({extended : false})); /* HTML form */
 app.use(bodyParser.json()) /* API */
