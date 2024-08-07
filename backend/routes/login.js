@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const path = require('path');
+require('dotenv').config();
 
 const createUsersTable = async () => {
     let sql = `CREATE TABLE IF NOT EXISTS users (
@@ -25,10 +26,10 @@ const createUsersTable = async () => {
 
 createUsersTable();
 
-router.use(express.static(path.join(__dirname, '..', 'login', 'public')));
+router.use(express.static(path.join('frontend/login/public')));
 
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'login','public', 'index.html'));
+    res.sendFile(path.join(process.env.STATIC_FILES_BASE_DIR_LOGIN));
 })
 
 router.post('/', async (req, res) => {

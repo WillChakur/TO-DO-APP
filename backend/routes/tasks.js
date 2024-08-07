@@ -2,6 +2,7 @@ const db = require('../db/index.js');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+require('dotenv').config();
 
 const createTasksTable = async () => {
     let sql = `CREATE TABLE IF NOT EXISTS tasks (
@@ -19,7 +20,11 @@ const createTasksTable = async () => {
 }
 createTasksTable();
 
-router.use(express.static(path.join(__dirname, '..', 'todo', 'public')));
+router.use(express.static(path.join('frontend/todo/public')));
+
+router.get('/', (req, res) => {
+    res.sendFile(path.join(process.env.STATIC_FILES_BASE_DIR_TODO));
+})
 
 router.post('/',async (req, res) => {
 

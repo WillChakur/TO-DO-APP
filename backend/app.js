@@ -22,7 +22,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
   }))
-app.use(express.static(path.join(__dirname, 'login/public')));
+app.use(express.static(path.join('frontend/login/public')));
 app.use('/login', routerLogin);
 app.use('/tasks', routerTasks);
 app.use('/register', routerReg);

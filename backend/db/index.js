@@ -1,5 +1,6 @@
 /* Here we have a single module to manage the database interactions, going this way we significantly improve the maintainability and scalability of your application */
 const pg = require('pg');
+require('dotenv').config();
 
 const { Pool } = pg;
  

@@ -4,11 +4,12 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const path = require('path');
+require('dotenv').config();
 
-router.use(express.static(path.join(__dirname, '..', 'register', 'public')));
+router.use(express.static(path.join('frontend/register/public')));
 
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'register','public', 'index.html'));
+    res.sendFile(path.join(process.env.STATIC_FILES_BASE_DIR_REGISTER));
 })
 
 router.post('/', async (req, res) => {
