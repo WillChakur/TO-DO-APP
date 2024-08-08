@@ -1,0 +1,16 @@
+[31merror[39m:   unhandledRejection: Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:699:11)
+    at ServerResponse.header (/home/willchakur/Documentos/TO-DO-APP/node_modules/express/lib/response.js:795:10)
+    at ServerResponse.send (/home/willchakur/Documentos/TO-DO-APP/node_modules/express/lib/response.js:175:12)
+    at ServerResponse.json (/home/willchakur/Documentos/TO-DO-APP/node_modules/express/lib/response.js:279:15)
+    at /home/willchakur/Documentos/TO-DO-APP/backend/routes/register.js:32:25
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[31merror[39m:   unhandledRejection: Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:699:11)
+    at ServerResponse.header (/home/willchakur/Documentos/TO-DO-APP/node_modules/express/lib/response.js:795:10)
+    at ServerResponse.send (/home/willchakur/Documentos/TO-DO-APP/node_modules/express/lib/response.js:175:12)
+    at ServerResponse.json (/home/willchakur/Documentos/TO-DO-APP/node_modules/express/lib/response.js:279:15)
+    at /home/willchakur/Documentos/TO-DO-APP/backend/routes/register.js:32:25
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

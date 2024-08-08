@@ -26,10 +26,9 @@ router.post('/', async (req, res) => {
         
         await addNewUser(values);
 
-        res.status(201).json({ message: 'User registered successfully' });
-    
+        return res.status(201).json({ message: 'User registered successfully',redirect: 'http://localhost:3000/login'});
     }catch(err) {
-        logger.error('Error registering the user: ', err)
+        logger.error('Error registering the user: ', err);
         res.status(500).json({ error: 'Failed to create user' });
     } 
 });
