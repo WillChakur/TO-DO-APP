@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const path = require('path');
+const logger = require('../logger.js');
 require('dotenv').config();
 
 router.use(express.static(path.join('frontend/register/public')));
@@ -28,7 +29,7 @@ router.post('/', async (req, res) => {
         res.status(201).json({ message: 'User registered successfully' });
     
     }catch(err) {
-        console.error('Error registering the user: ', err)
+        logger.error('Error registering the user: ', err)
         res.status(500).json({ error: 'Failed to create user' });
     } 
 });
@@ -39,9 +40,9 @@ const addNewUser = async (values) => {
     
     try {
         await db(sql, values);
-        console.log('New user registered');
+        logger.info('New user registered');
     }catch(err) {
-        console.error('Error registering a new user:', err);
+        logger.error('Error registering a new user:', err);
         throw err;
     }
 }
@@ -52,7 +53,7 @@ const hashPassword = async (password) => {
         const hash = await bcrypt.hash(password, salt);
         return hash;
     } catch (err) {
-        console.error('Error while hashing password:', err);
+        logger.error('Error while hashing password:', err);
         throw err; 
     }
 };

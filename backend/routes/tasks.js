@@ -2,6 +2,7 @@ const db = require('../db/index.js');
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const logger = require('../logger.js');
 require('dotenv').config();
 
 const createTasksTable = async () => {
@@ -13,9 +14,9 @@ const createTasksTable = async () => {
 
     try {
         await db(sql); 
-        console.log("Tasks table sucessfully created.");
+        logger.info("Tasks table sucessfully created.");
     }catch(err) {
-        console.error("Error creating tasks table:", err);
+        logger.error("Error creating tasks table:", err);
     };
 }
 createTasksTable();
@@ -55,7 +56,7 @@ router.delete ('/delTasks/:id', async (req, res) => {
             await db (sql, [ taskid ])
             res.status(200).send({ message: 'tasks deleted with success' });
         }catch(err) {
-            console.error(err)
+            logger.error(err)
             res.status(500).send({ message: 'Error deleting the tasks' });
         }
     } else {
@@ -73,7 +74,7 @@ router.get('/getTasks', async (req, res) => {
             const tasks = await db(sql, [ req.session.userID ]);
             res.status(200).send({ data: tasks.rows });
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             res.status(500).send({ message: 'Internal Server Error' });
         }
     } else {
@@ -86,9 +87,9 @@ const addNewTask = async (values) => {
                  VALUES($1, $2, $3)`;
     try {
         await db(sql, values)
-        console.log('New task added');
+        logger.info('New task added');
     }catch(err) {
-        console.error('An error occurred while adding a new task', err);
+        logger.error('An error occurred while adding a new task', err);
         throw err;
     };  
 };

@@ -5,8 +5,9 @@ This Web APP comes for people who need a little help organizing their routine, w
 - **PostgreSQL**: 
   - A powerful relational database management system (RDBMS) that provides reliable data storage and management. PostgreSQL supports complex queries, transactions, and a variety of data types, making it ideal for handling user data and tasks efficiently.
 
-- **Docker**: 
-  - A platform that enables the creation and management of lightweight, portable containers. Docker ensures that each component of the application runs in an isolated environment, preventing dependency conflicts. This technology simplifies deployment and allows for consistent development across different environments.
+- **Wiston**: 
+  - Library to do loggins on NodeJS
+  - Daily Log Rotation
 
 - **Node.js**: 
   - A JavaScript runtime built on Chrome's V8 engine, designed for building scalable network applications. Node.js allows for asynchronous, non-blocking I/O operations, making it perfect for handling multiple requests simultaneously. Its extensive ecosystem, accessible through npm (Node Package Manager), provides a wealth of libraries and frameworks to accelerate development.

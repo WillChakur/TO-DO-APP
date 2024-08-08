@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+const logger = require('./logger');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
@@ -8,6 +8,8 @@ const routerLogin  = require('./routes/login');
 const routerTasks = require('./routes/tasks');
 const routerReg = require('./routes/register');
 require('dotenv').config();
+
+const app = express();
 
 const PORT = process.env.PORT;
 
@@ -28,5 +30,5 @@ app.use('/tasks', routerTasks);
 app.use('/register', routerReg);
 
 app.listen(PORT, () => {
-    console.log(`Server listening on Port: ${PORT}`);
+    logger.info(`Server listening on Port: ${PORT}`);
 });

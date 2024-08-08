@@ -165,7 +165,7 @@ const deleteTask = () => {
                                     throw new Error('Error deleting the task on database ', response.statusText);
                                 }
                             }catch (err) {
-                                console.error(err);
+                                logger.error(err);
                             }
                             task.remove();
 
