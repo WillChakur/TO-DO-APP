@@ -3,3 +3,14 @@
 [32minfo[39m:    Users table sucessfully created.
 [32minfo[39m:    Password is correct
 [32minfo[39m:    New task added
+[32minfo[39m:    Server listening on Port: 3000
+[31merror[39m:   Database query error:  getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Database query error:  getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Database query error:  getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Error registering a new user: getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Error registering the user:  getaddrinfo ENOTFOUND postgres.railway.internal
+[32minfo[39m:    Server listening on Port: 3000
+[32minfo[39m:    New user registered
+[32minfo[39m:    Password is correct
+[32minfo[39m:    New task added
+[32minfo[39m:    New task added

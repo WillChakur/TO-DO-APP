@@ -10,6 +10,7 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     database: process.env.DB_DATABASE,
+    connectionString: process.env.DB_CONNECTION,
 })
 
 const query = async (text, params, callback) => {

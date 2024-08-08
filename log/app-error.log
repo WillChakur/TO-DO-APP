@@ -1,0 +1,5 @@
+[31merror[39m:   Database query error:  getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Database query error:  getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Database query error:  getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Error registering a new user: getaddrinfo ENOTFOUND postgres.railway.internal
+[31merror[39m:   Error registering the user:  getaddrinfo ENOTFOUND postgres.railway.internal

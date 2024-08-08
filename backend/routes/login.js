@@ -6,26 +6,26 @@ const path = require('path');
 const logger = require('../logger.js');
 require('dotenv').config();
 
-const createUsersTable = async () => {
-    let sql = `CREATE TABLE IF NOT EXISTS users (
-    userID INT GENERATED ALWAYS AS IDENTITY,
-    firstname VARCHAR(50) NOT NULL,
-    lastname VARCHAR(50) NOT NULL,
-    email VARCHAR(62) UNIQUE NOT NULL,
-    username VARCHAR(30) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    PRIMARY KEY(userID)
-    )`;
+// const createUsersTable = async () => {
+//     let sql = `CREATE TABLE IF NOT EXISTS users (
+//     userID INT GENERATED ALWAYS AS IDENTITY,
+//     firstname VARCHAR(50) NOT NULL,
+//     lastname VARCHAR(50) NOT NULL,
+//     email VARCHAR(62) UNIQUE NOT NULL,
+//     username VARCHAR(30) UNIQUE NOT NULL,
+//     password VARCHAR(255) NOT NULL,
+//     PRIMARY KEY(userID)
+//     )`;
 
-    try {
-        await db(sql); 
-        logger.info("Users table sucessfully created.");
-    }catch(err) {
-        logger.error("Error creating users table:", err);
-    };
-};
+//     try {
+//         await db(sql); 
+//         logger.info("Users table sucessfully created.");
+//     }catch(err) {
+//         logger.error("Error creating users table:", err);
+//     };
+// };
 
-createUsersTable();
+// createUsersTable();
 
 router.use(express.static(path.join('frontend/login/public')));
 
