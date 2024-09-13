@@ -15,7 +15,7 @@ const PORT = process.env.PORT;
 
 app.use(bodyParser.urlencoded({extended : false})); 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000','https://to-do-app-np-7e816f104332.herokuapp.com'],
   credentials: true
 }));
 app.use(session({
