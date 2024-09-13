@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
     const { firstname, lastname, email, username, password } = req.body;
-
+    console.log("Fui chamado");
     if (!firstname || !lastname || !email || !username || !password) {
         return res.status(400).json({ error: 'All fields are required' });
     }
