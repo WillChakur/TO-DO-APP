@@ -13,8 +13,7 @@ const app = express();
 
 const PORT = process.env.PORT;
 
-app.use(bodyParser.urlencoded({extended : false})); /* HTML form */
-app.use(bodyParser.json()) /* API */
+app.use(bodyParser.urlencoded({extended : false})); 
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true

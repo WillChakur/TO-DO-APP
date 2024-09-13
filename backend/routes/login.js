@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
                     logger.info('Password is correct');
                     const userID = data.rows[0].userid;
                     req.session.userID = userID;   
-                    return res.send({ redirect: 'http://localhost:3000/tasks'});
+                    return res.send({ redirect: '/tasks'});
                 }else {
                     return res.status(401).json({ error: 'Incorrect Password' });
                 }
