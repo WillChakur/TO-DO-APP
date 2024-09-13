@@ -13,6 +13,8 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
+    
+    
     const { username, password } = req.body
 
     let sql =   `SELECT * FROM users
@@ -22,7 +24,6 @@ router.post('/', async (req, res) => {
         const data = await db(sql, [username]);
 
         if (data.rows.length > 0) {
-            console.log("entrei")
             bcrypt.compare(password, data.rows[0].password, function(err, result) {
                 if(err) {
                     logger.error(err);
