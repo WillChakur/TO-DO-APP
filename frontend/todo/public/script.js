@@ -1,6 +1,6 @@
 const getTasks = async () => {
     try {
-        const response = await fetch('http://localhost:3000/tasks/getTasks', {
+        const response = await fetch('/tasks/getTasks', {
             method: 'GET'
         });
 
@@ -76,13 +76,13 @@ const addTask = async () => {
 
                 const randomId =  getRandomPostgresInteger();
                 try {
-                    await fetch('http://localhost:3000/tasks', {
+                    await fetch('/tasks', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ taskname: task,
-                                            taskid: randomId//Valor aleatorio
+                                            taskid: randomId
                         })
                     }).then(res => res.json())
 
@@ -157,7 +157,7 @@ const deleteTask = () => {
 
                         for (const task of doneTasks) {
                             try {
-                                const response = await fetch(`http://localhost:3000/tasks/delTasks/${task.firstChild.id}`, {
+                                const response = await fetch(`/tasks/delTasks/${task.firstChild.id}`, {
                                     method: 'DELETE'
                                 });
                                 
@@ -165,7 +165,7 @@ const deleteTask = () => {
                                     throw new Error('Error deleting the task on database ', response.statusText);
                                 }
                             }catch (err) {
-                                logger.error(err);
+                                console.error(err);
                             }
                             task.remove();
 

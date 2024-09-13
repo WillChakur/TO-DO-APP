@@ -41,6 +41,7 @@ router.post('/', async (req, res) => {
             });
         }
         else {
+            alert("Oops! Username or Password is incorrect")
             return res.status(404).json({ error: 'User does not exist' });
         }
     }catch(error) {
