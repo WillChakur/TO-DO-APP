@@ -8,14 +8,34 @@ const logger = require('../logger.js');
 require('dotenv').config();
 
 router.use(express.static(path.join('frontend/register/public')));
-
 router.get('/', (req, res) => {
     res.sendFile(path.join(process.env.STATIC_FILES_BASE_DIR_REGISTER));
 })
 
+const createUserTable = async () => {
+    let sql =  ` CREATE TABLE IF NOT EXISTS users (
+                 userID SERIAL PRIMARY KEY,
+                 firstname VARCHAR(50),
+                 lastname VARCHAR(50),
+                 email VARCHAR(255),
+                 username VARCHAR(70)
+                 password VARCHAR(255)  ) `
+
+    try {
+        await db(sql); 
+        logger.info("Users table sucessfully created.");
+    }catch(err) {
+        logger.error("Error creating Users table:", err);
+    };
+}
+
+(async () => {
+    await createUserTable();
+})();
+
 router.post('/', async (req, res) => {
     const { firstname, lastname, email, username, password } = req.body;
-    console.log("Fui chamado");
+    
     if (!firstname || !lastname || !email || !username || !password) {
         return res.status(400).json({ error: 'All fields are required' });
     }

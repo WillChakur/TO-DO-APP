@@ -19,7 +19,10 @@ const createTasksTable = async () => {
         logger.error("Error creating tasks table:", err);
     };
 }
-createTasksTable();
+
+(async () => {
+    await createTasksTable();
+})();
 
 router.use(express.static(path.join('frontend/todo/public')));
 
