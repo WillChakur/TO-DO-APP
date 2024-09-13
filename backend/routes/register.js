@@ -12,14 +12,29 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(process.env.STATIC_FILES_BASE_DIR_REGISTER));
 })
 
+const createTasksTable = async () => {
+    let sql = `CREATE TABLE IF NOT EXISTS tasks (
+    taskID SERIAL PRIMARY KEY,
+    taskname VARCHAR(50) NOT NULL,
+    userID INTEGER REFERENCES users(userID)
+    )`;
+
+    try {
+        await db(sql); 
+        logger.info("Tasks table sucessfully created.");
+    }catch(err) {
+        logger.error("Error creating tasks table:", err);
+    };
+}
+
 const createUserTable = async () => {
     let sql =  ` CREATE TABLE IF NOT EXISTS users (
                  userID SERIAL PRIMARY KEY,
                  firstname VARCHAR(50),
                  lastname VARCHAR(50),
                  email VARCHAR(255),
-                 username VARCHAR(70)
-                 password VARCHAR(255)  ) `
+                 username VARCHAR(70),
+                 password VARCHAR(255)) `
 
     try {
         await db(sql); 
@@ -31,6 +46,7 @@ const createUserTable = async () => {
 
 (async () => {
     await createUserTable();
+    await createTasksTable();
 })();
 
 router.post('/', async (req, res) => {

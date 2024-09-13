@@ -5,25 +5,6 @@ const path = require('path');
 const logger = require('../logger.js');
 require('dotenv').config();
 
-const createTasksTable = async () => {
-    let sql = `CREATE TABLE IF NOT EXISTS tasks (
-    taskID SERIAL PRIMARY KEY,
-    taskname VARCHAR(50) NOT NULL,
-    userID INTEGER REFERENCES users(userID)
-    )`;
-
-    try {
-        await db(sql); 
-        logger.info("Tasks table sucessfully created.");
-    }catch(err) {
-        logger.error("Error creating tasks table:", err);
-    };
-}
-
-(async () => {
-    await createTasksTable();
-})();
-
 router.use(express.static(path.join('frontend/todo/public')));
 
 router.get('/', (req, res) => {
