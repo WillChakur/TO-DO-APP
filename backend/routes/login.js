@@ -30,11 +30,11 @@ router.post('/', async (req, res) => {
                     res.status(500).json({error: 'Internal server error'});
                 }
 
-                if(result) {
+                if (result) {
                     logger.info('Password is correct');
                     const userID = data.rows[0].userid;
-                    req.session.userID = userID;   
-                    return res.send({ redirect: '/tasks'});
+                    req.session.userID = userID;
+                    return res.send({ redirect: '/tasks' })
                 }else {
                     return res.status(401).json({ error: 'Incorrect Password' });
                 }
