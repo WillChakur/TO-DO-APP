@@ -43,13 +43,15 @@
                     alert("Incorrect Password");
                 } else if (res.status == 404) {
                     alert("User does not exists")
+                } else {
+                    console.log(res);
                 }
             })
-              .then(res =>{
-                if(res.redirect) {
-                    window.location.href = res.redirect;
-                }
-              })
+            //   .then(res =>{
+            //     if(res.redirect) {
+            //         window.location.href = res.redirect;
+            //     }
+            //   })
               .catch(err => console.log(err));
         });
 
