@@ -45,9 +45,9 @@
                     alert("User does not exists")
                 }
             })
-              .then(data =>{
-                if(data.redirect) {
-                    window.location.href = data.redirect;
+              .then(res =>{
+                if(res.redirect) {
+                    window.location.href = res.redirect;
                 }
               })
               .catch(err => console.log(err));
