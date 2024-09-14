@@ -38,7 +38,13 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            }).then(res => res.json())
+            }).then(res => {
+                if (res.status == 401) {
+                    alert("Incorrect Password");
+                } else if (res.status == 404) {
+                    alert("User does not exists")
+                }
+            })
               .then(data =>{
                 if(data.redirect) {
                     window.location.href = data.redirect;
