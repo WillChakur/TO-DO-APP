@@ -82,8 +82,8 @@ router.put('/:id', async (req, res) => {
 });
 
 const addNewTask = async (values) => {
-    let sql =   `INSERT INTO tasks(taskid, taskname, userID)
-                 VALUES($1, $2, $3)`;
+    let sql =   `INSERT INTO tasks(taskid, taskname, userID, done)
+                 VALUES($1, $2, $3, $4)`;
     try {
         await db(sql, values)
         logger.info('New task added');
