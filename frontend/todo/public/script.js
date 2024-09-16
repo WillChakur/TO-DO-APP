@@ -25,43 +25,10 @@ const displayTasks = async () => {
 
         if (tasks) {
             let list = document.getElementById('to-do__list');
+            list.innerHTML = ''; // Clear the list before adding tasks
 
             tasks.forEach(task => {
-                let listItem = document.createElement('div');
-                listItem.classList.add('checkbox-wrapper-11');
-                listItem.classList.add('task-item');
-
-                let newTask = document.createElement('input');
-                newTask.type = 'checkbox';
-                newTask.id = task.taskid;
-                newTask.name = 'task';
-                newTask.value = task.taskname;
-
-                let label = document.createElement('label');
-                label.htmlFor = newTask.id;
-                label.textContent = task.taskname;
-
-                listItem.appendChild(newTask);
-                listItem.appendChild(label);
-
-                list.appendChild(listItem);
-
-                listItem.addEventListener('click', async (e) => {
-                    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-                        listItem.classList.toggle('task-done');
-                        try {
-                            await fetch(`/tasks/${task.taskid}`, {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ done: e.target.checked })
-                            });
-                        } catch (err) {
-                            console.error('Error updating task status:', err);
-                        }
-                    }
-                });
+                addTaskToDOM(task);
             });
         }
     } catch (err) {
@@ -82,48 +49,20 @@ const addTask = async () => {
             let task = formData.get('newtask');
 
             if (task) {
-
-                const randomId =  getRandomPostgresInteger();
+                const randomId = getRandomPostgresInteger();
                 try {
-                    await fetch('/tasks', {
+                    const response = await fetch('/tasks', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ taskname: task,
-                                            taskid: randomId
-                        })
-                    }).then(res => res.json())
-
-
-                    const listItem = document.createElement('div');
-                    listItem.classList.add('checkbox-wrapper-11');
-                    listItem.classList.add('task-item');
-
-                    const newTask = document.createElement('input');
-                    newTask.type = 'checkbox';
-                    newTask.id = randomId;
-                    newTask.name = 'task';
-                    newTask.value = task;
-
-                    const label = document.createElement('label');
-                    label.htmlFor = newTask.id;
-                    label.textContent = task;
-
-                    listItem.appendChild(newTask);
-                    listItem.appendChild(label);
-
-                    list.appendChild(listItem);
-
+                        body: JSON.stringify({ taskname: task, taskid: randomId })
+                    });
+                    const newTask = await response.json();
+                    addTaskToDOM(newTask);
                     form.reset();
                     form.classList.remove('visible');
-
-                    listItem.addEventListener('click', (e) => {
-                        if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-                            listItem.classList.toggle('task-done');
-                        }
-                    });
-                }catch (error) {
+                } catch (error) {
                     console.error('Error adding task: ', error);
                 }
             }
@@ -131,6 +70,32 @@ const addTask = async () => {
     } else {
         console.log('Form or list element not found');
     }
+};
+
+const addTaskToDOM = (task) => {
+    const taskElement = document.createElement('div');
+    taskElement.className = 'task';
+    taskElement.dataset.id = task.taskid;
+    taskElement.innerHTML = `
+        <input type="checkbox" ${task.done ? 'checked' : ''}>
+        <span>${task.taskname}</span>
+    `;
+    document.getElementById('to-do__list').appendChild(taskElement);
+
+    taskElement.querySelector('input').addEventListener('change', async (e) => {
+        const done = e.target.checked;
+        try {
+            await fetch(`/tasks/${task.taskid}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ done })
+            });
+        } catch (err) {
+            console.error('Error updating task:', err);
+        }
+    });
 };
 
 const deleteTask = () => {
