@@ -85,7 +85,7 @@ h3 {
 }
 
 .checkbox-wrapper-11 > label {
-    font-size: 20px;
+    font-size: 1rem;
 }
 
 .btn {
@@ -174,14 +174,16 @@ h3 {
 
 .checkbox-wrapper-11 {
     --text: #414856;
+    /*
     --check: #4F29F0;
+    */
     --disabled: #C3C8DE;
     --border-radius: 10px;
     border-radius: var(--border-radius);
     position: relative;
     padding: 5px;
     display: grid;
-    grid-template-columns: 30px auto;
+    grid-template-columns: 0 auto;
     align-items: center;
 }
 
