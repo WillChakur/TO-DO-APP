@@ -47,9 +47,20 @@ const displayTasks = async () => {
 
                     list.appendChild(listItem);
 
-                    listItem.addEventListener('click', (e) => {
+                    listItem.addEventListener('click', async(e) => {
                         if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
                             listItem.classList.toggle('task-done');
+                            try {
+                                await fetch(`/tasks/${newTask.id}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ done: e.target.checked })
+                                });
+                            } catch (err) {
+                                console.error('Error updating task status:', err);
+                            }
                         }
                     });
             })
@@ -109,9 +120,20 @@ const addTask = async () => {
                     form.reset();
                     form.classList.remove('visible');
 
-                    listItem.addEventListener('click', (e) => {
+                    listItem.addEventListener('click', async(e) => {
                         if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
                             listItem.classList.toggle('task-done');
+                            try {
+                                await fetch(`/tasks/${newTask.id}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ done: e.target.checked })
+                                });
+                            } catch (err) {
+                                console.error('Error updating task status:', err);
+                            }
                         }
                     });
                 }catch (error) {
