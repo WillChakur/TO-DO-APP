@@ -16,7 +16,7 @@ const createTasksTable = async () => {
     let sql = `CREATE TABLE IF NOT EXISTS tasks (
     taskID SERIAL PRIMARY KEY,
     taskname VARCHAR(50) NOT NULL,
-    userID INTEGER REFERENCES users(userID)
+    userID INTEGER REFERENCES users(userID),
     done BOOLEAN DEFAULT FALSE
     )`;
 
