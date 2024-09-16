@@ -47,6 +47,9 @@ const displayTasks = async () => {
 
                     list.appendChild(listItem);
 
+                    console.log('task', task);
+
+
                     listItem.addEventListener('click', async(e) => {
                         if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
                             listItem.classList.toggle('task-done');
