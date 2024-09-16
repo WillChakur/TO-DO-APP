@@ -70,7 +70,7 @@ router.put('/:id', async (req, res) => {
     const { done } = req.body;
 
     try {
-        const result = await db.query(
+        const result = await db(
             'UPDATE tasks SET done = $1 WHERE taskID = $2 RETURNING *',
             [done, id]
         );
