@@ -47,8 +47,10 @@ const displayTasks = async () => {
 
                     list.appendChild(listItem);
 
-                    console.log('task', task);
-
+                    if(task.done === true) {
+                        listItem.classList.add('task-done');
+                        newTask.checked = true;
+                    }
 
                     listItem.addEventListener('click', async(e) => {
                         if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
