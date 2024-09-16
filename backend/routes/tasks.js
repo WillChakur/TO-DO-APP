@@ -18,7 +18,7 @@ router.post('/',async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const values = [ taskid, taskname, req.session.userID ];
+    const values = [ taskid, taskname, req.session.userID, false ];
 
     try {
         await addNewTask(values);
@@ -65,6 +65,22 @@ router.get('/getTasks', async (req, res) => {
     }
 })
 
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { done } = req.body;
+
+    try {
+        const result = await db.query(
+            'UPDATE tasks SET done = $1 WHERE taskID = $2 RETURNING *',
+            [done, id]
+        );
+        res.json(result.rows[0]);
+    } catch (err) {
+        logger.error('Error updating task:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 const addNewTask = async (values) => {
     let sql =   `INSERT INTO tasks(taskid, taskname, userID)
                  VALUES($1, $2, $3)`;
@@ -74,7 +90,7 @@ const addNewTask = async (values) => {
     }catch(err) {
         logger.error('An error occurred while adding a new task', err);
         throw err;
-    };  
+    }
 };
 
 

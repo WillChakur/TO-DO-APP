@@ -23,43 +23,52 @@ const displayTasks = async () => {
     try {
         const tasks = await getTasks();
 
-        if(tasks) {
-
+        if (tasks) {
             let list = document.getElementById('to-do__list');
 
             tasks.forEach(task => {
                 let listItem = document.createElement('div');
-                    listItem.classList.add('checkbox-wrapper-11');
-                    listItem.classList.add('task-item');
+                listItem.classList.add('checkbox-wrapper-11');
+                listItem.classList.add('task-item');
 
-                    let newTask = document.createElement('input');
-                    newTask.type = 'checkbox';
-                    newTask.id = task.taskid;
-                    newTask.name = 'task';
-                    newTask.value = task.taskname;
+                let newTask = document.createElement('input');
+                newTask.type = 'checkbox';
+                newTask.id = task.taskid;
+                newTask.name = 'task';
+                newTask.value = task.taskname;
 
-                    let label = document.createElement('label');
-                    label.htmlFor = newTask.id;
-                    label.textContent = task.taskname;
+                let label = document.createElement('label');
+                label.htmlFor = newTask.id;
+                label.textContent = task.taskname;
 
-                    listItem.appendChild(newTask);
-                    listItem.appendChild(label);
+                listItem.appendChild(newTask);
+                listItem.appendChild(label);
 
-                    list.appendChild(listItem);
+                list.appendChild(listItem);
 
-                    listItem.addEventListener('click', (e) => {
-                        if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-                            listItem.classList.toggle('task-done');
+                listItem.addEventListener('click', async (e) => {
+                    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
+                        listItem.classList.toggle('task-done');
+                        try {
+                            await fetch(`/tasks/${task.taskid}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ done: e.target.checked })
+                            });
+                        } catch (err) {
+                            console.error('Error updating task status:', err);
                         }
-                    });
-            })
+                    }
+                });
+            });
         }
-
-    } catch(err) {
+    } catch (err) {
         console.error('Error while displaying tasks:', err);
         alert('Failed to display tasks. Please try again later.');
     }
-}
+};
 
 const addTask = async () => {
     let form = document.getElementById('new-task-form');

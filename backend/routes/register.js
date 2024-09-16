@@ -17,14 +17,15 @@ const createTasksTable = async () => {
     taskID SERIAL PRIMARY KEY,
     taskname VARCHAR(50) NOT NULL,
     userID INTEGER REFERENCES users(userID)
+    done BOOLEAN DEFAULT FALSE
     )`;
 
     try {
         await db(sql); 
-        logger.info("Tasks table sucessfully created.");
+        logger.info("Tasks table successfully created.");
     }catch(err) {
         logger.error("Error creating tasks table:", err);
-    };
+    }
 }
 
 const createUserTable = async () => {
