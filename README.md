@@ -1,47 +1,43 @@
+# To Do Web App
 
-# To-Do Web Application
+Esse serviço foi desenvolvido para fins de estudo. Nele o usuário pode criar sua conta e adicionar tarefas a serem realizadas, podendo marcar como concluídas ou deletar a tarefa.
 
-This web application is designed to help users organize their routines effectively. Whether you need to manage grocery lists, daily chores, work projects, or personal goals, this app provides a simple and efficient way to track and manage your tasks.
+## Screenshots
 
+![Home da Aplicação](frontend/todo/public/assets/todo-Pic.png)
 
+- Tela principal da Aplicação.
 
 ## Tech Stack
 
-**Backend** 
+**Client:** Javascript, HTML, CSS
 
-- **Node.js**: A JavaScript runtime built on Chrome's V8 engine, designed for building scalable network applications. Node.js allows for asynchronous, non-blocking I/O operations, making it ideal for handling multiple requests simultaneously.
+**Server:** Node.js, Express, PostgreSQL
 
-**Database**
+## Competências
 
-- **PostgreSQL**: A powerful relational database management system (RDBMS) that offers reliable data storage and management. PostgreSQL supports complex queries, transactions, and a variety of data types, making it perfect for handling user data and tasks efficiently.
+Durante o desenvolvimento deste projeto, apliquei algumas competências importantes. Abaixo estão os principais tópicos abordados:
 
-**Security**
+- **CRUD com Banco de Dados PostgreSQL**.
+- **Rotas Cliente-Servidor**: Uso de rotas RESTful para comunicação entre o frontend e backend, garantindo que as requisições e respostas sejam tratadas corretamente.
+- **Deploy com Heroku**.
+- **Autorização com Bcryptjs**: Implementação de mecanismos de autorização segura, criptografando senhas e validando-as para controle de acesso do usuário.
 
-- **Bcrypt**: A library used to hash passwords securely. It ensures that user passwords are encrypted before being stored in the database.
+Ferramentas de Desenvolvimento:
 
-**Logging**
+- **Eslint**: Para organização do código.
+- **Winston (Logger)**: Captura de informações importantes do serviço.
 
-- **Winston**: A versatile logging library for Node.js. It provides logging functionality and supports daily log rotation through the winston-daily-rotate-file plugin.
+## Funcionalidades
 
+- Adicionar tarefas a serem realizadas.
+- Autorização de usuário com Login e Senha.
+- Marcar tarefas como concluídas.
+- Interface intuitiva e responsiva desenvolvida apenas com CSS e HTML.
 
-## Features
+## Utilização
 
-- **Task Management**: Create, read and delete tasks. Organize tasks into categories such as work, personal, shopping, etc.
+**Nota de Segurança**: A versão atual desta aplicação não é totalmente segura para uso. Embora a criptografia de senhas esteja implementada usando bcrypt, recursos de segurança adicionais, como OAuth e criptografia avançada, não estão configurados. Use este serviço com cautela se estiver lidando com dados sensíveis.
 
-- **User Authentication**: Secure login and registration using hashed passwords.
-
-- **Logging**: Detailed application logging with daily log rotation to monitor and debug application behavior.
-
-- **Responsive Design**: A user-friendly interface that works seamlessly across various devices.
-
-
-## Usage
-
-- **Register** a new account or login with your credentials.
-
-- **Create** tasks and save it into your account.
-
-- **Delete** tasks as needed
-
-- **Monitor** which tasks have been done
+O serviço está disponível via Heroku para fácil acesso. Você pode visitar a aplicação aqui: [To Do Web App](https://to-do-app-np-7e816f104332.herokuapp.com/).
 
